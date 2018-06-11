@@ -20,6 +20,7 @@ Page({
     username: '你的好友',
     hot: '../image/hot.png',
     playicon: '../image/play.png',
+    // banner: '../image/share.jpeg',
     banner:
       'http://02.imgmini.eastday.com/mobile/20180602/20180602_e24b87efecc240fe3e9c46cdebee8f76_cover_mwpm_05501609.jpg',
     title: '36岁离婚后瘦骨如柴，无戏可拍比鲁豫还可怜，自理更生成这样！',
@@ -76,7 +77,7 @@ Page({
           ewmHeight +
           lineHeight * 3
       });
-      this.createImg();
+      // this.createImg();
     });
   },
 
@@ -103,7 +104,7 @@ Page({
     return new Promise((resolve, reject) => {
       wx.getSystemInfo({
         success: function(res) {
-          console.log('res::', res);
+          // console.log('res::', res);
           scope.setData({
             windowWidth: res.windowWidth,
             windowHeight: res.windowHeight,
@@ -141,8 +142,7 @@ Page({
       }
     }
     list.push(optstr);
-    // console.log('list::', list);
-    console.log(line, list);
+    // console.log(line, list);
     return {
       line: line,
       list: list
@@ -191,7 +191,7 @@ Page({
       wx.getImageInfo({
         src: scope.data.banner,
         success: function(res) {
-          console.log(res.path);
+          // console.log(res.path);
           ctx.drawImage(res.path, 0, 0, windowWidth, bannerHeight);
           resolve();
         }
@@ -300,7 +300,7 @@ Page({
       ctx.font = 'normal bold 14';
       usernameWidth = ctx.measureText(username).width;
     }
-    console.log('usernameWidth::', usernameWidth);
+    // console.log('usernameWidth::', usernameWidth);
     ctx.setFontSize(12);
     ctx.setFillStyle('#666666');
     ctx.fillText(
