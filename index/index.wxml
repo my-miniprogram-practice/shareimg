@@ -1,7 +1,8 @@
 <view>
     <canvas style="width:100%;height:{{contentHeight}}px" canvas-id="myCanvas"></canvas>
     <view class="edit-footer">
-        <button class="button-done" type="primary" bindtap="createImg">生成图片</button>
+        <button class="button-done" type="primary" open-type="getUserInfo" bindgetuserinfo="gotUserInfo">生成图片</button>
+        <!-- <button class="button-done" type="primary" bindtap="createImg">生成图片</button> -->
         <button class="button-done" type="primary" bindtap="savePic">保存图片</button>
     </view>
 </view>

@@ -17,7 +17,7 @@ Page({
     ewmWidth: 100,
     ewmHeight: 100,
     avatar: '../image/avatar.png',
-    username: '你的好友',
+    nickName: '你的好友',
     hot: '../image/hot.png',
     playicon: '../image/play.png',
     // banner: '../image/share.jpeg',
@@ -90,12 +90,15 @@ Page({
     this.drawEwm(ctx);
     this.drawLine(ctx);
     this.drawUser(ctx);
+    this.drawFooter(ctx);
     this.drawBanner(ctx)
       .then(() => {
         ctx.draw();
+        this.hideToast();
       })
       .catch(() => {
         ctx.draw();
+        this.hideToast();
       });
   },
 
@@ -149,38 +152,10 @@ Page({
     };
   },
 
-  // getData: function() {
-  //   let i = 0;
-  //   let lineNum = 1;
-  //   let thinkStr = '';
-  //   let titleList = [];
-  //   for (let item of this.data.title) {
-  //     if (item === '\n') {
-  //       titleList.push(thinkStr);
-  //       titleList.push('a');
-  //       i = 0;
-  //       thinkStr = '';
-  //       lineNum += 1;
-  //     } else if (i === 18) {
-  //       titleList.push(thinkStr);
-  //       i = 1;
-  //       thinkStr = item;
-  //       lineNum += 1;
-  //     } else {
-  //       thinkStr += item;
-  //       i += 1;
-  //     }
-  //   }
-  //   titleList.push(thinkStr);
-  //   // console.log('titleList::', titleList);
-  //   this.setData({ titleList: titleList });
-  //   this.createImg(lineNum);
-  // },
-
   drawSquare: function(ctx) {
     const { windowWidth, contentHeight } = this.data;
     ctx.rect(0, 0, windowWidth, contentHeight);
-    ctx.setFillStyle('#fff');
+    ctx.setFillStyle('#ffffff');
     ctx.fill();
   },
 
@@ -274,14 +249,7 @@ Page({
 
   drawUser: function(ctx) {
     // 头像
-    const {
-      avatar,
-      offset,
-      username,
-      contentHeight,
-      lineHeight,
-      hot
-    } = this.data;
+    const { avatar, offset, nickName, contentHeight } = this.data;
     const avatarWidth = 25;
     ctx.drawImage(
       avatar,
@@ -293,21 +261,25 @@ Page({
     // 昵称
     ctx.setFontSize(12);
     ctx.setFillStyle('#333333');
-    ctx.fillText(username, offset + avatarWidth + 5, contentHeight - 82); // 82是猜测的
+    ctx.fillText(nickName, offset + avatarWidth + 5, contentHeight - 82); // 82是猜测的
     // 正在阅读这篇文章
-    let usernameWidth = username.length * 10;
+    let nickNameWidth = nickName.length * 8;
     if (ctx.measureText) {
       ctx.font = 'normal bold 14';
-      usernameWidth = ctx.measureText(username).width;
+      nickNameWidth = ctx.measureText(nickName).width;
     }
-    // console.log('usernameWidth::', usernameWidth);
+    console.log('nickNameWidth::', nickNameWidth);
     ctx.setFontSize(12);
     ctx.setFillStyle('#666666');
     ctx.fillText(
       '正在阅读这篇文章',
-      offset + avatarWidth + 5 + usernameWidth + 15,
+      offset + avatarWidth + 5 + nickNameWidth + 10,
       contentHeight - 82 // 82是猜测的
     );
+  },
+
+  drawFooter: function(ctx) {
+    const { offset, contentHeight, hot } = this.data;
     // 长按扫码
     ctx.setFontSize(15);
     ctx.setFillStyle('#444444');
@@ -325,6 +297,34 @@ Page({
     ctx.setFontSize(14);
     ctx.setFillStyle('#666666');
     ctx.fillText('阅读全文', offset + 90, contentHeight - 20);
+  },
+
+  gotUserInfo: function(e) {
+    this.showToast();
+    const userInfo = e.detail.userInfo;
+    console.log(e.detail);
+    if (userInfo) {
+      // this.setData({
+      //   avatar: userInfo.avatarUrl,
+      //   nickName: userInfo.nickName
+      // });
+    }
+    this.createImg();
+  },
+
+  showToast: function() {
+    wx.showToast({
+      title: '正在生成海报',
+      icon: 'loading',
+      duration: 3000,
+      mask: true,
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {}
+    });
+  },
+  hideToast: function() {
+    wx.hideToast();
   },
 
   savePic: function() {
