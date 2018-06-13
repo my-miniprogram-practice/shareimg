@@ -177,10 +177,10 @@ function drawSourceTime(ctx) {
 }
 
 function drawLine(ctx) {
-  let height = contentHeight - ewmHeight - 20;
+  let height = contentHeight - ewmHeight - 25;
   ctx.beginPath();
-  ctx.moveTo(offset, height);
-  ctx.lineTo(windowWidth - offset, height);
+  ctx.moveTo(parseInt(offset) + 0.5, parseInt(height) + 0.5);
+  ctx.lineTo(parseInt(windowWidth - offset) + 0.5, parseInt(height) + 0.5);
   ctx.setStrokeStyle('#f1f1f1');
   ctx.stroke();
   ctx.closePath();
